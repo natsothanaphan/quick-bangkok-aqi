@@ -49,14 +49,6 @@ npm run dev
 
 ## Deployment process
 
-### Firestore
-
-1. Run deploy command.
-
-```bash
-firebase deploy --only firestore
-```
-
 ### Functions
 
 1. Run deploy command.

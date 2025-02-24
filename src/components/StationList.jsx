@@ -1,11 +1,8 @@
-import React from "react";
-import StationCard from "./StationCard";
-import "./StationList.css"; // Import the CSS file
+import React from 'react';
+import StationCard from './StationCard';
+import './StationList.css';
 
-function StationList({ stations }) {
-  if (!stations || stations.length === 0) {
-    return <div>No station data available.</div>;
-  }
+const StationList = ({ stations }) => {
   return (
     <div className="station-list">
       {stations.map((station, index) => (
@@ -13,6 +10,6 @@ function StationList({ stations }) {
       ))}
     </div>
   );
-}
+};
 
 export default StationList;
