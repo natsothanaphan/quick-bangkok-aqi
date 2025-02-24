@@ -1,43 +1,33 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
-const { setGlobalOptions } = require("firebase-functions/v2");
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+require('dotenv').config({ path: ['.env', '.env.default'] });
+const { initializeApp } = require('firebase-admin/app');
+const { setGlobalOptions } = require('firebase-functions/v2');
+const { onRequest } = require('firebase-functions/v2/https');
 const fetch = require('node-fetch');
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const logger = require('firebase-functions/logger');
+const express = require('express');
 
 setGlobalOptions({ region: 'asia-southeast1' });
+initializeApp();
 
-// This function acts as a proxy to the public URL.
-exports.apiProxy = onRequest(async (req, res) => {
-  // Build the target URL based on the incoming request.
-  const targetUrl = 'https://stations.airbkk.com' + req.path.replace(/^\/api/, '');
+const app = express();
+app.use(express.json());
+
+app.get('/api/ping', (req, res) => {
+  res.send('pong');
+});
+
+const AIR_QUALITY_DATA_URL = 'https://stations.airbkk.com/bma/marker.php';
+
+app.get('/api/airQualityData', async (req, res) => {
   try {
-    const response = await fetch(targetUrl, {
-      method: req.method,
-      // headers: req.headers, // Forwarding headers gives error, perhaps due to host header
-      body: req.method !== 'GET' && req.method !== 'HEAD' ? req.body : undefined,
-    });
-    const data = await response.text();
-    logger.log('Proxy response with status ' + response.status);
-    // Forward the status and response.
-    res.status(response.status).send(data);
+    const resp = await fetch(AIR_QUALITY_DATA_URL);
+    const data = await resp.text();
+    logger.log('Air quality data fetched, status: ' + resp.status);
+    res.status(resp.status).send(data);
   } catch (error) {
-    console.error('Error proxying request:', error);
-    res.status(500).send('Proxy error');
+    logger.error('Air quality data fetch error:', error);
+    res.status(500).send('Error fetching air quality data');
   }
 });
+
+exports.app = onRequest(app);

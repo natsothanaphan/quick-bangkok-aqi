@@ -1,5 +1,6 @@
 #root {
-  max-width: 1280px;
+  width: 100%;
+  max-width: 960px;
   margin: 0 auto;
   text-align: center;
 }
@@ -13,15 +14,19 @@
   min-height: 100vh;
 }
 
-/* Container for the main content */
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 1rem;
+.location-input {
+  margin: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Used for loading and error messages */
-.loading-error {
-  text-align: center;
-  margin-top: 2rem;
+.location-input > input {
+  width: 180px;
+}
+
+.stations-info {
+  width: 100%;
+  max-width: 720px;
+  margin: 8px 0;
 }
