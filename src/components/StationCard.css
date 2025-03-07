@@ -11,26 +11,5 @@
   width: 100%;
   height: 40px;
   border-radius: 8px;
-}
-
-.station-card.aqi-green::before {
-  background-color: green;
-}
-.station-card.aqi-yellow::before {
-  background-color: yellow;
-}
-.station-card.aqi-orange::before {
-  background-color: orange;
-}
-.station-card.aqi-red::before {
-  background-color: red;
-}
-.station-card.aqi-purple::before {
-  background-color: purple;
-}
-.station-card.aqi-brown::before {
-  background-color: brown;
-}
-.station-card.aqi-gray::before {
-  background-color: gray;
+  background-color: var(--aqi-color);
 }

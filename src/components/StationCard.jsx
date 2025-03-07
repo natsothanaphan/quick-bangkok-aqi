@@ -12,14 +12,15 @@ const StationCard = ({ station }) => {
     aqiData,
   } = station;
 
-  const aqiClass = aqiData ? `aqi-${aqiData.color}` : 'aqi-gray';
-  const distanceText = distance !== undefined && distance !== null ? `📍 ${distance.toFixed(3)} km` : '📍 N/A';
-  const pm25Text = pm25 !== undefined && pm25 !== null ? `🧪 PM2.5 ${pm25}` : '🧪 N/A';
-  const aqiText = aqiData !== undefined && aqiData !== null ? `🚨 AQI ${aqiData.aqi} (${aqiData.category})` : '🚨 N/A';
-  const datetimeText = `📅 ${formatDatetime(datetime)}`;
+  const style = { '--aqi-color': aqiData?.color || 'gray' };
+  
+  const distanceText = distance !== undefined && distance !== null ? `📌 ${distance.toFixed(3)} km` : '📌 N/A';
+  const pm25Text = pm25 !== undefined && pm25 !== null ? `🌫️ PM2.5 ${pm25}` : '🌫️ N/A';
+  const aqiText = aqiData !== undefined && aqiData !== null ? `⚠️ AQI ${aqiData.aqi} (${aqiData.category})` : '⚠️ N/A';
+  const datetimeText = `⏱️ ${formatDatetime(datetime)}`;
 
   return (
-    <div className={`station-card ${aqiClass}`}>
+    <div className='station-card' style={style}>
       <h2>{name_th}—{name_en}</h2>
       <p>{district_th}—{district_en}</p>
       <p>{distanceText}—{datetimeText}</p>
